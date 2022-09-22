@@ -1,6 +1,9 @@
 name: CI
 
-on: push
+on:
+  push:
+      branches:
+        - main
 
 jobs:
   build:
@@ -10,57 +13,27 @@ jobs:
       matrix:
         include:
           ## Alpine
-          ### Alpine 3.13
-          - image: 'alpine/3.13/7.4/Dockerfile'
-            tags: [ 'spryker/php:7.4-alpine3.13' ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-          - image: 'alpine/3.13/8.0/Dockerfile'
-            tags: [ 'spryker/php:8.0-alpine3.13' ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-
-          ### Alpine 3.14
-          - image: 'alpine/3.14/7.4/Dockerfile'
-            tags: [ 'spryker/php:latest', 'spryker/php:7.4', 'spryker/php:7.4-alpine3.14' ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-          - image: 'alpine/3.14/8.0/Dockerfile'
-            tags: [ 'spryker/php:8.0', 'spryker/php:8.0-alpine3.14' ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-          - image: 'alpine/3.14/8.1/Dockerfile'
-            tags: [ 'spryker/php:8.1', 'spryker/php:8.1-alpine3.14' ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-
-          ### Alpine 3.15
-          - image: 'alpine/3.15/7.4/Dockerfile'
-            tags: [ 'spryker/php:7.4-alpine3.15' ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-          - image: 'alpine/3.15/8.0/Dockerfile'
-            tags: [ 'spryker/php:8.0-alpine3.15' ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-          - image: 'alpine/3.15/8.1/Dockerfile'
-            tags: [ 'spryker/php:8.1-alpine3.15' ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-
           ### Alpine 3.16
           - image: 'alpine/3.16/7.4/Dockerfile'
-            tags: [ 'spryker/php:7.4-alpine3.16' ]
+            tags: [ 'loeffelhardt/php:7.4', 'loeffelhardt/php:7.4-alpine3.16' ]
             platforms: [ "linux/amd64", "linux/arm64" ]
           - image: 'alpine/3.16/8.0/Dockerfile'
-            tags: [ 'spryker/php:8.0-alpine3.16' ]
+            tags: [ 'loeffelhardt/php:8.0-alpine3.16' ]
             platforms: [ "linux/amd64", "linux/arm64" ]
           - image: 'alpine/3.16/8.1/Dockerfile'
-            tags: [ 'spryker/php:8.1-alpine3.16' ]
+            tags: [ 'loeffelhardt/php:latest', 'loeffelhardt/php:8.1', 'loeffelhardt/php:8.1-alpine3.16' ]
             platforms: [ "linux/amd64", "linux/arm64" ]
 
           ## Debian
           ### Debian bullseye
           - image: 'debian/bullseye/7.4/Dockerfile'
-            tags: [ 'spryker/php:7.4-debian' ]
+            tags: [ 'loeffelhardt/php:7.4-debian' ]
             platforms: [ "linux/amd64", "linux/arm64" ]
           - image: 'debian/bullseye/8.0/Dockerfile'
-            tags: [ 'spryker/php:8.0-debian' ]
+            tags: [ 'loeffelhardt/php:8.0-debian' ]
             platforms: [ "linux/amd64", "linux/arm64" ]
           - image: 'debian/bullseye/8.1/Dockerfile'
-            tags: [ 'spryker/php:8.1-debian' ]
+            tags: [ 'loeffelhardt/php:8.1-debian' ]
             platforms: [ "linux/amd64", "linux/arm64" ]
     steps:
       - name: Set up QEMU
@@ -79,7 +52,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          push: ${{ github.ref == 'refs/heads/master' }}
+          push: ${{ github.ref == 'refs/heads/main' }}
           file: ${{ matrix.image }}
           tags: ${{ join(matrix.tags) }}
           platforms: ${{ join(matrix.platforms) }}
