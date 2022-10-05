@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.0.2-experimental
-ARG SPRYKER_PHP_VERSION=8.1.10
+ARG SPRYKER_PHP_VERSION=8.1.11
 
 FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.16
 
@@ -20,6 +20,7 @@ ARG PHP_RUN_DEPS="\
     gmp \
     gnu-libiconv \
     icu-libs \
+    icu-data-full \
     libbz2 \
     libc6-compat \
     libjpeg-turbo \
