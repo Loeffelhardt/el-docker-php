@@ -104,6 +104,8 @@ RUN apt update -y \
     && apt remove -y $PHP_BUILD_DEPS \
     && apt clean
 
+SHELL ["/bin/bash", "-c"]
+
 # Blackfire
 ENV BLACKFIRE_AGENT_SOCKET=''
 RUN architecture=$(case ${TARGETPLATFORM} in "linux/amd64") echo "amd64" ;; linux/arm64) echo "arm64" ;; *) echo "amd64" ;; esac) \
