@@ -81,6 +81,7 @@ RUN apk update \
     g++ \
     git \
     graphviz \
+    linux-headers \
     make \
     mysql-client \
     netcat-openbsd \
