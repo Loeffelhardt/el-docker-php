@@ -168,6 +168,7 @@ Disabled extensions
  [ ] blackfire 1.57.0
  [ ] newrelic 9.19.0.309
  [ ] tideways 5.5.8
+ [ ] xhprof 2.3.5
 
 INSTALLED PACKAGES, CHANNEL PECL.PHP.NET:
 =========================================
