@@ -166,7 +166,7 @@ Installed extensions
 Disabled extensions
 ====================
  [ ] blackfire 1.57.0
- [ ] newrelic 9.19.0.309
+ [ ] newrelic 10.6.0.318
  [ ] tideways 5.5.8
  [ ] xhprof 2.3.5
 
