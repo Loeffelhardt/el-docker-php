@@ -78,6 +78,7 @@ ARG ADDITIONAL_PHP_PECL_EXTENSIONS="\
 
 ARG CFLAGS="-I/usr/src/php"
 RUN apk update \
+    && apk upgrade \
     && apk add --no-cache \
     bash \
     coreutils \
@@ -89,6 +90,7 @@ RUN apk update \
     mysql-client \
     netcat-openbsd \
     openssh \
+    openssl=1.1.1t-r2 \
     postgresql-client \
     procps \
     python3 \
