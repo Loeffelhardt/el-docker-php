@@ -1,17 +1,16 @@
 # syntax = docker/dockerfile:1.0.2-experimental
-ARG SPRYKER_PHP_VERSION=8.1.13
-ARG NEWRELIC_VERSION=10.6.0.318
+ARG SPRYKER_PHP_VERSION=8.1.18
 
-FROM  spryker/newrelic-extension:${NEWRELIC_VERSION}-php8.1 as spyker-newrelic-arm
+FROM spryker/newrelic-extension:10.6.0.318-php8.1 as spyker-newrelic-arm
 
-FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.15
+FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.17
 
 ARG TARGETPLATFORM
 ARG COMPOSER_VERSION=2.5.5
-ARG BLACKFIRE_VERSION=1.80.0
+ARG BLACKFIRE_VERSION=1.86.4
 ARG BLACKFIRE_PHP_VERSION=81
-ARG NEWRELIC_VERSION=10.6.0.318
-ARG TIDEWAYS_VERSION=5.5.8
+ARG NEWRELIC_VERSION=10.9.0.324
+ARG TIDEWAYS_VERSION=5.5.14
 ARG TIDEWAYS_PHP_VERSION=8.1
 
 ENV srcRoot /data
@@ -40,6 +39,7 @@ ARG PHP_BUILD_DEPS="\
     freetype-dev \
     gmp-dev \
     icu-dev \
+    icu-data-full \
     libjpeg-turbo-dev \
     libpng-dev \
     libwebp-dev \
@@ -89,7 +89,6 @@ RUN apk update \
     mysql-client \
     netcat-openbsd \
     openssh \
-    openssl=1.1.1t-r3 \
     postgresql-client \
     procps \
     python3 \

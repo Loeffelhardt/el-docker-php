@@ -13,6 +13,7 @@ jobs:
       matrix:
         include:
           ## Alpine
+
           ### Alpine 3.15
           - image: "alpine/3.15/8.0/Dockerfile"
             tags: [ "loeffelhardt/php:8.0-alpine3.15" ]
@@ -26,7 +27,18 @@ jobs:
             tags: [ "loeffelhardt/php:8.0", "loeffelhardt/php:8.0-alpine3.16" ]
             platforms: [ "linux/amd64", "linux/arm64" ]
           - image: "alpine/3.16/8.1/Dockerfile"
-            tags: [ "loeffelhardt/php:latest", "loeffelhardt/php:8.1", "loeffelhardt/php:8.1-alpine3.16" ]
+            tags: [ "loeffelhardt/php:8.1-alpine3.16" ]
+            platforms: [ "linux/amd64", "linux/arm64" ]
+          - image: "alpine/3.16/8.2/Dockerfile"
+            tags: [ "loeffelhardt/php:8.2-alpine3.16" ]
+            platforms: [ "linux/amd64", "linux/arm64" ]
+
+          ### Alpine 3.17
+          - image: "alpine/3.17/8.1/Dockerfile"
+            tags: [ "loeffelhardt/php:8.1", "loeffelhardt/php:8.1-alpine3.17" ]
+            platforms: [ "linux/amd64", "linux/arm64" ]
+          - image: "alpine/3.17/8.2/Dockerfile"
+            tags: [ "loeffelhardt/php:latest", "loeffelhardt/php:8.2", "loeffelhardt/php:8.2-alpine3.17" ]
             platforms: [ "linux/amd64", "linux/arm64" ]
 
           ## Debian
@@ -36,6 +48,9 @@ jobs:
             platforms: [ "linux/amd64", "linux/arm64" ]
           - image: 'debian/bullseye/8.1/Dockerfile'
             tags: [ 'loeffelhardt/php:8.1-debian' ]
+            platforms: [ "linux/amd64", "linux/arm64" ]
+          - image: 'debian/bullseye/8.2/Dockerfile'
+            tags: [ 'loeffelhardt/php:8.2-debian' ]
             platforms: [ "linux/amd64", "linux/arm64" ]
     steps:
       - name: Set up QEMU
