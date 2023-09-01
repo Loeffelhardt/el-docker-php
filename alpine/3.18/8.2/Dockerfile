@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1.0.2-experimental
-ARG SPRYKER_PHP_VERSION=8.2.5
+ARG SPRYKER_PHP_VERSION=8.2.9
 
-FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.16
+FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.18
 
 ARG TARGETPLATFORM
 ARG COMPOSER_VERSION=2.5.8
@@ -43,7 +43,6 @@ ARG PHP_BUILD_DEPS="\
     libwebp-dev \
     libxml2-dev \
     libxpm-dev \
-    libxslt-dev \
     libzip-dev \
     postgresql-dev"
 
@@ -61,7 +60,6 @@ ARG PHP_EXTENSIONS="\
     pgsql \
     soap \
     sockets \
-    xsl \
     zip"
 
 ARG PHP_PECL_EXTENSIONS="\
@@ -82,7 +80,6 @@ RUN apk update \
     curl \
     g++ \
     git \
-    graphviz \
     make \
     mysql-client \
     netcat-openbsd \
@@ -151,6 +148,15 @@ RUN bash -c 'if [ "${TARGETPLATFORM}" == "linux/arm64" ]; then \
     wget https://s3-eu-west-1.amazonaws.com/tideways/extension/${TIDEWAYS_VERSION}/tideways-php-${TIDEWAYS_VERSION}-alpine-arm64.tar.gz \
     && tar xvzf tideways-php-${TIDEWAYS_VERSION}-alpine-arm64.tar.gz \
     && cp ./build/dist/tideways-php-alpine-${TIDEWAYS_PHP_VERSION}.so $(php-config --extension-dir)/tideways.so; fi'
+
+# GraphViz 7.0.5
+RUN cd /tmp && \
+    curl -L https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/7.0.5/graphviz-7.0.5.tar.gz | tar -zx && \
+    cd /tmp/graphviz-7.0.5 && \
+    ./configure && \
+    make && \
+    make install && \
+    rm -rf /tmp/graphviz-7.0.5
 
 # Opcache
 RUN /usr/bin/install -d -m 777 /var/run/opcache
