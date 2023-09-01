@@ -60,6 +60,7 @@ ARG PHP_EXTENSIONS="\
     pgsql \
     soap \
     sockets \
+    xsl \
     zip"
 
 ARG PHP_PECL_EXTENSIONS="\
