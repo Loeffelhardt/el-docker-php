@@ -43,6 +43,7 @@ ARG PHP_BUILD_DEPS="\
     libwebp-dev \
     libxml2-dev \
     libxpm-dev \
+    libxslt-dev \
     libzip-dev \
     postgresql-dev"
 
