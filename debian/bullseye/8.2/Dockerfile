@@ -47,6 +47,7 @@ ARG PHP_BUILD_DEPS="\
 ARG PHP_EXTENSIONS="\
     bcmath \
     bz2 \
+    ftp \
     gd \
     gmp \
     intl \
