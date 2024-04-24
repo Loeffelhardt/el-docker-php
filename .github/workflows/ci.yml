@@ -13,18 +13,18 @@ jobs:
 
           ### Alpine 3.18
           - image: "alpine/3.18/8.1/Dockerfile"
-            tags: [ "loeffelhardt/php:8.1", "loeffelhardt/php:8.1-alpine3.18" ]
+            tags: [ "loeffelhardt/php:8.1-alpine3.18" ]
             platforms: [ "linux/amd64", "linux/arm64" ]
           - image: "alpine/3.18/8.2/Dockerfile"
-            tags: [ "loeffelhardt/php:latest", "loeffelhardt/php:8.2", "loeffelhardt/php:8.2-alpine3.18" ]
+            tags: [  "loeffelhardt/php:8.2-alpine3.18" ]
             platforms: [ "linux/amd64", "linux/arm64" ]
 
           ### Alpine 3.19
           - image: "alpine/3.19/8.1/Dockerfile"
-            tags: [ "loeffelhardt/php:8.1-alpine3.19" ]
+            tags: [ "loeffelhardt/php:8.1", "loeffelhardt/php:8.1-alpine3.19" ]
             platforms: [ "linux/amd64", "linux/arm64" ]
           - image: "alpine/3.19/8.2/Dockerfile"
-            tags: [ "loeffelhardt/php:8.2-alpine3.19" ]
+            tags: [ "loeffelhardt/php:latest", "loeffelhardt/php:8.2", "loeffelhardt/php:8.2-alpine3.19" ]
             platforms: [ "linux/amd64", "linux/arm64" ]
 
           ## Debian
