@@ -43,6 +43,7 @@ ARG PHP_BUILD_DEPS="\
     libwebp-dev \
     libxml2-dev \
     libxpm-dev \
+    libxslt-dev \
     libzip-dev \
     postgresql-dev"
 
@@ -61,6 +62,7 @@ ARG PHP_EXTENSIONS="\
     pgsql \
     soap \
     sockets \
+    xsl \
     zip"
 
 ARG PHP_PECL_EXTENSIONS="\
