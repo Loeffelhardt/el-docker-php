@@ -1,10 +1,10 @@
 # syntax = docker/dockerfile:1.0.2-experimental
 ARG SPRYKER_PHP_VERSION=8.1.29
 
-FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.19
+FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.20
 
 ARG TARGETPLATFORM
-ARG COMPOSER_VERSION=2.7.1
+ARG COMPOSER_VERSION=2.6.6
 ARG BLACKFIRE_VERSION=1.87.1
 ARG BLACKFIRE_PHP_VERSION=81
 ARG NEWRELIC_VERSION=10.22.0.12
@@ -43,7 +43,6 @@ ARG PHP_BUILD_DEPS="\
     libwebp-dev \
     libxml2-dev \
     libxpm-dev \
-    libxslt-dev \
     libzip-dev \
     postgresql-dev"
 
@@ -61,7 +60,6 @@ ARG PHP_EXTENSIONS="\
     pgsql \
     soap \
     sockets \
-    xsl \
     zip"
 
 ARG PHP_PECL_EXTENSIONS="\
