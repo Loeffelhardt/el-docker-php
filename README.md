@@ -182,7 +182,7 @@ xdebug  3.2.2   stable
 xhprof  2.3.9   stable
 Composer
 ====================
-Composer version 2.6.6
+Composer version 2.7.7
 ```
 ##### Run the following to get the report
 ```bash

@@ -4,7 +4,7 @@ ARG SPRYKER_PHP_VERSION=8.1.29
 FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.19
 
 ARG TARGETPLATFORM
-ARG COMPOSER_VERSION=2.7.1
+ARG COMPOSER_VERSION=2.7.7
 ARG BLACKFIRE_VERSION=1.87.1
 ARG BLACKFIRE_PHP_VERSION=81
 ARG NEWRELIC_VERSION=10.22.0.12
@@ -98,7 +98,7 @@ RUN apk update \
     ${PHP_RUN_DEPS} \
     && \
     apk add --no-cache --virtual .php-build-deps ${PHP_BUILD_DEPS} \
-    && \ 
+    && \
     apk add --no-cache --virtual .graphviz-build-deps ${GRAPHVIZ_BUILD_DEPS} \
     && rm -rf /var/lib/apt/lists/ \
     && \
