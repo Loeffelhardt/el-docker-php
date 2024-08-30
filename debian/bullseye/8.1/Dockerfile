@@ -29,7 +29,6 @@ ARG PHP_RUN_DEPS="\
     libxslt1.1 \
     libzip4"
 
-
 ARG PHP_BUILD_DEPS="\
     libbz2-dev \
     libfreetype6-dev \
@@ -42,7 +41,8 @@ ARG PHP_BUILD_DEPS="\
     libxml2-dev \
     libxpm-dev \
     libxslt1-dev \
-    libzip-dev"
+    libzip-dev \
+    librabbitmq-dev"
 
 ARG PHP_EXTENSIONS="\
     bcmath \
@@ -68,7 +68,8 @@ ARG PHP_PECL_EXTENSIONS="\
 ARG ADDITIONAL_PHP_PECL_EXTENSIONS="\
     pcov \
     xdebug \
-    xhprof"
+    xhprof \
+    amqp"
 
 ARG CFLAGS="-I/usr/src/php"
 RUN apt update -y \

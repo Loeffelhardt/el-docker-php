@@ -28,8 +28,8 @@ ARG PHP_RUN_DEPS="\
     libxml2 \
     libxpm \
     libxslt \
-    libzip"
-
+    libzip \
+    rabbitmq-c"
 
 ARG PHP_BUILD_DEPS="\
     autoconf \
@@ -45,7 +45,8 @@ ARG PHP_BUILD_DEPS="\
     libxpm-dev \
     libxslt-dev \
     libzip-dev \
-    postgresql-dev"
+    postgresql-dev \
+    rabbitmq-c-dev"
 
 ARG PHP_EXTENSIONS="\
     bcmath \
@@ -72,7 +73,8 @@ ARG PHP_PECL_EXTENSIONS="\
 ARG ADDITIONAL_PHP_PECL_EXTENSIONS="\
     pcov \
     xdebug \
-    xhprof"
+    xhprof \
+    amqp"
 
 ARG GRAPHVIZ_BUILD_DEPS="\
     expat-dev"
