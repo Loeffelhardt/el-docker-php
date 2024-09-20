@@ -50,7 +50,7 @@ Extends official Spryker PHP Docker images with extensions and tools to be able 
 ### Pull image
 ```bash
 $ docker pull loeffelhardt/php
-$ docker pull loeffelhardt/php:8.2
+$ docker pull loeffelhardt/php:8.3
 ```
 
 ### Run container
@@ -60,32 +60,32 @@ $ docker run -i --rm loeffelhardt/php:latest php -v
 
 ### Dockerfile
 ```dockerfile
-FROM loeffelhardt/php:8.2
+FROM loeffelhardt/php:8.3
 ```
 
 ### docker-compose.yml
 ```yaml
 service1:
-    image: loeffelhardt/php:8.2-debian
+    image: loeffelhardt/php:8.3-debian
 ```
 
 ### Enable NewRelic
 ```dockerfile
-FROM loeffelhardt/php:8.2
+FROM loeffelhardt/php:8.3
 
 RUN mv /usr/local/etc/php/disabled/newrelic.ini /usr/local/etc/php/conf.d/90-newrelic.ini
 ```
 
 ### Enable Blackfire
 ```dockerfile
-FROM loeffelhardt/php:8.2
+FROM loeffelhardt/php:8.3
 
 RUN mv /usr/local/etc/php/disabled/blackfire.ini /usr/local/etc/php/conf.d/90-blackfire.ini
 ```
 
 ### Enable Tideways
 ```dockerfile
-FROM loeffelhardt/php:8.2
+FROM loeffelhardt/php:8.3
 
 RUN mv /usr/local/etc/php/disabled/tideways.ini /usr/local/etc/php/conf.d/90-tideways.ini
 ```
