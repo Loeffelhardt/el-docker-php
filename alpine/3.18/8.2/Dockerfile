@@ -20,6 +20,7 @@ ARG PHP_RUN_DEPS="\
     gmp \
     gnu-libiconv \
     icu-libs \
+    libavif \
     libbz2 \
     libc6-compat \
     libjpeg-turbo \
@@ -38,6 +39,7 @@ ARG PHP_BUILD_DEPS="\
     gmp-dev \
     icu-dev \
     icu-data-full \
+    libavif-dev \
     libjpeg-turbo-dev \
     libpng-dev \
     libwebp-dev \
@@ -107,6 +109,7 @@ RUN apk update \
     && \
     docker-php-ext-configure gd \
       --disable-gd-jis-conv \
+      --with-avif=/usr \
       --with-freetype=/usr \
       --with-jpeg=/usr \
       --with-webp=/usr \
