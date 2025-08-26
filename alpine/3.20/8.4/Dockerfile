@@ -1,14 +1,14 @@
 # syntax = docker/dockerfile:1.0.2-experimental
-ARG SPRYKER_PHP_VERSION=8.2.28
+ARG SPRYKER_PHP_VERSION=8.4.8
 FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.20
 
 ARG TARGETPLATFORM
 ARG COMPOSER_VERSION=2.8.10
-ARG BLACKFIRE_VERSION=1.87.1
-ARG BLACKFIRE_PHP_VERSION=82
+ARG BLACKFIRE_VERSION=1.92.28
+ARG BLACKFIRE_PHP_VERSION=84
 ARG NEWRELIC_VERSION=11.10.0.24
 ARG TIDEWAYS_VERSION=5.22.2
-ARG TIDEWAYS_PHP_VERSION=8.2
+ARG TIDEWAYS_PHP_VERSION=8.4
 
 ENV srcRoot /data
 RUN mkdir -p ${srcRoot}
@@ -84,23 +84,23 @@ ARG CFLAGS="-I/usr/src/php"
 RUN apk update \
     && apk upgrade \
     && apk add --no-cache \
-        bash \
-        coreutils \
-        curl \
-        g++ \
-        git \
-        make \
-        mysql-client \
-        netcat-openbsd \
-        openssh \
-        postgresql-client \
-        procps \
-        python3 \
-        shadow \
-        unzip \
-        linux-headers \
-        libstdc++ \
-        ${PHP_RUN_DEPS} \
+    bash \
+    coreutils \
+    curl \
+    g++ \
+    git \
+    make \
+    mysql-client \
+    netcat-openbsd \
+    openssh \
+    postgresql-client \
+    procps \
+    python3 \
+    shadow \
+    unzip \
+    linux-headers \
+    libstdc++ \
+    ${PHP_RUN_DEPS} \
     && apk add --no-cache --virtual .php-build-deps ${PHP_BUILD_DEPS} \
     && apk add --no-cache --virtual .graphviz-build-deps ${GRAPHVIZ_BUILD_DEPS} \
     && rm -rf /var/lib/apt/lists/ \
@@ -108,12 +108,12 @@ RUN apk update \
     && tar xzf icu4c-74_1-src.tgz \
     && cd icu/source && ./configure --prefix=/usr && make && make install \
     && docker-php-ext-configure gd \
-        --disable-gd-jis-conv \
-        --with-avif=/usr \
-        --with-freetype=/usr \
-        --with-jpeg=/usr \
-        --with-webp=/usr \
-        --with-xpm=/usr \
+      --disable-gd-jis-conv \
+      --with-avif=/usr \
+      --with-freetype=/usr \
+      --with-jpeg=/usr \
+      --with-webp=/usr \
+      --with-xpm=/usr \
     && docker-php-ext-install -j5 ${PHP_EXTENSIONS} \
     && pecl install -o -f ${PHP_PECL_EXTENSIONS} ${ADDITIONAL_PHP_PECL_EXTENSIONS} \
     && rm -rf /tmp/pear \
@@ -124,21 +124,13 @@ RUN apk update \
 # Related to https://github.com/docker-library/php/issues/240
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
-# Otel
-RUN echo "https://dl-cdn.alpinelinux.org/alpine/v$(cut -d'.' -f1,2 /etc/alpine-release)/community" >> /etc/apk/repositories
-RUN PHP_VERSION=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
-    && apk add --no-cache \
-       php${PHP_VERSION}-pecl-grpc \
-       php${PHP_VERSION}-pecl-protobuf \
-       php${PHP_VERSION}-pecl-opentelemetry
+## Blackfire
+ENV BLACKFIRE_AGENT_SOCKET=''
+RUN architecture=$(case ${TARGETPLATFORM} in "linux/amd64") echo "amd64" ;; linux/arm64) echo "arm64" ;; *) echo "amd64" ;; esac) \
+    && curl -A "Docker" -o /tmp/blackfire.so -D - -L -s https://packages.blackfire.io/binaries/blackfire-php/${BLACKFIRE_VERSION}/blackfire-php-alpine_${architecture}-php-${BLACKFIRE_PHP_VERSION}.so \
+    && mv /tmp/blackfire.so $(php -r "echo ini_get ('extension_dir');")/blackfire.so
 
-RUN PHP_VERSION=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
-    && EXT_DIR=$(php -r "echo ini_get('extension_dir');") \
-    && ln -s /usr/lib/php${PHP_VERSION}/modules/grpc.so $EXT_DIR/grpc.so \
-    && ln -s /usr/lib/php${PHP_VERSION}/modules/protobuf.so $EXT_DIR/protobuf.so \
-    && ln -s /usr/lib/php${PHP_VERSION}/modules/opentelemetry.so $EXT_DIR/opentelemetry.so
-
-# Blackfire
+## Blackfire
 ENV BLACKFIRE_AGENT_SOCKET=''
 RUN architecture=$(case ${TARGETPLATFORM} in "linux/amd64") echo "amd64" ;; linux/arm64) echo "arm64" ;; *) echo "amd64" ;; esac) \
     && curl -A "Docker" -o /tmp/blackfire.so -D - -L -s https://packages.blackfire.io/binaries/blackfire-php/${BLACKFIRE_VERSION}/blackfire-php-alpine_${architecture}-php-${BLACKFIRE_PHP_VERSION}.so \
@@ -176,7 +168,7 @@ RUN bash -c 'if [ "${TARGETPLATFORM}" == "linux/arm64" ]; then \
     && tar xvzf tideways-php-${TIDEWAYS_VERSION}-alpine-arm64.tar.gz \
     && cp ./tideways-php-${TIDEWAYS_VERSION}/tideways-php-alpine-${TIDEWAYS_PHP_VERSION}.so $(php-config --extension-dir)/tideways.so; fi'
 
-#GraphViz 7.0.5
+# GraphViz 7.0.5
 RUN cd /tmp && \
     curl -L https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/7.0.5/graphviz-7.0.5.tar.gz | tar -zx && \
     cd /tmp/graphviz-7.0.5 && \
