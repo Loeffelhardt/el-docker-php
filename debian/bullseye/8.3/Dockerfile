@@ -1,15 +1,15 @@
 # syntax=docker/dockerfile:1.7
-ARG SPRYKER_PHP_VERSION=8.3.23
+ARG SPRYKER_PHP_VERSION=8.3.24
 
 FROM php:${SPRYKER_PHP_VERSION}-fpm-bullseye
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG TARGETPLATFORM
-ARG COMPOSER_VERSION=2.8.10
-ARG BLACKFIRE_VERSION=1.92.28
+ARG COMPOSER_VERSION=2.8.12
+ARG BLACKFIRE_VERSION=1.92.48
 ARG BLACKFIRE_PHP_VERSION=83
-ARG NEWRELIC_VERSION=11.10.0.24
-ARG TIDEWAYS_VERSION=5.22.2
+ARG NEWRELIC_VERSION=12.1.0.26
+ARG TIDEWAYS_VERSION=5.30.0
 ARG TIDEWAYS_PHP_VERSION=8.3
 ARG GOLANG_VERSION=1.20.3
 
@@ -29,7 +29,9 @@ ARG PHP_RUN_DEPS="\
     libxml2 \
     libxpm4 \
     libxslt1.1 \
-    libzip4"
+    libzip4 \
+    libmagickwand-6.q16-6 \
+    libmagickcore-6.q16-6"
 
 ARG PHP_BUILD_DEPS="\
     libavif-dev \
@@ -48,7 +50,8 @@ ARG PHP_BUILD_DEPS="\
     librabbitmq-dev \
     libgrpc-dev \
     libprotobuf-dev \
-    protobuf-compiler"
+    protobuf-compiler \
+    libmagickwand-dev"
 
 ARG PHP_EXTENSIONS="\
     bcmath \
@@ -75,11 +78,13 @@ ARG PHP_PECL_EXTENSIONS="\
 ARG ADDITIONAL_PHP_PECL_EXTENSIONS="\
     pcov \
     xdebug \
-    xhprof \
+    xhprof \    
+    excimer \
     amqp \
     grpc \
     protobuf \
-    opentelemetry"
+    opentelemetry \
+    imagick"
 
 ARG CFLAGS="-I/usr/src/php"
 RUN apt update -y \
