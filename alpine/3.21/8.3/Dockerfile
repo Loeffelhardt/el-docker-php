@@ -1,13 +1,13 @@
 # syntax = docker/dockerfile:1.0.2-experimental
-ARG SPRYKER_PHP_VERSION=8.3.23
+ARG SPRYKER_PHP_VERSION=8.3.26
 FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.21
 
 ARG TARGETPLATFORM
-ARG COMPOSER_VERSION=2.8.10
-ARG BLACKFIRE_VERSION=1.92.28
+ARG COMPOSER_VERSION=2.8.12
+ARG BLACKFIRE_VERSION=1.92.48
 ARG BLACKFIRE_PHP_VERSION=83
-ARG NEWRELIC_VERSION=11.10.0.24
-ARG TIDEWAYS_VERSION=5.22.2
+ARG NEWRELIC_VERSION=12.1.0.26
+ARG TIDEWAYS_VERSION=5.30.0
 ARG TIDEWAYS_PHP_VERSION=8.3
 
 ENV srcRoot /data
@@ -28,7 +28,8 @@ ARG PHP_RUN_DEPS="\
     libxpm \
     libxslt \
     libzip \
-    rabbitmq-c"
+    rabbitmq-c \
+    imagemagick"
 
 ARG PHP_BUILD_DEPS="\
     autoconf \
@@ -47,7 +48,8 @@ ARG PHP_BUILD_DEPS="\
     libzip-dev \
     postgresql-dev \
     rabbitmq-c-dev \
-    g++"
+    g++ \
+    imagemagick-dev"
 
 ARG PHP_EXTENSIONS="\
     bcmath \
@@ -75,7 +77,9 @@ ARG ADDITIONAL_PHP_PECL_EXTENSIONS="\
     pcov \
     xdebug \
     xhprof \
-    amqp"
+    excimer \
+    amqp \
+    imagick"
 
 ARG GRAPHVIZ_BUILD_DEPS="\
     expat-dev"

@@ -1,8 +1,5 @@
 # PHP-FPM
 
-[![Docker Stars](https://img.shields.io/docker/stars/loeffelhardt/php.svg)](https://store.docker.com/community/images/loeffelhardt/php)
-[![Docker Pulls](https://img.shields.io/docker/pulls/loeffelhardt/php.svg)](https://store.docker.com/community/images/loeffelhardt/php)
-
 # Description
 
 Extends official Spryker PHP Docker images with extensions and tools to be able to run Löffelhardt.
@@ -29,17 +26,17 @@ Extends official Spryker PHP Docker images with extensions and tools to be able 
 
 | Tag                                                                                                   | PHP version | Linux distribution | Details                                                                                                                                                                                              | Dockerfile                                                                                         |
 |:------------------------------------------------------------------------------------------------------|:------------|:-------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------|
-| [loeffelhardt/php:latest](https://hub.docker.com/r/loeffelhardt/php/tags?name=latest)                 | 8.4.11      | Alpine 3.22        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:latest.svg)](https://microbadger.com/images/loeffelhardt/php:latest "Get your own image badge on microbadger.com")                 | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.22/8.4/Dockerfile)     |
-| [loeffelhardt/php:8.4](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.4)                       | 8.4.11      | Alpine 3.22        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.4.svg)](https://microbadger.com/images/loeffelhardt/php:8.4 "Get your own image badge on microbadger.com")                       | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.22/8.4/Dockerfile)     |
-| [loeffelhardt/php:8.3](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.3)                       | 8.3.23      | Alpine 3.22        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.3.svg)](https://microbadger.com/images/loeffelhardt/php:8.3 "Get your own image badge on microbadger.com")                       | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.22/8.3/Dockerfile)     |
-| [loeffelhardt/php:8.4-alpine3.22](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.4-alpine3.22) | 8.4.11      | Alpine 3.22        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.4-alpine3.22.svg)](https://microbadger.com/images/loeffelhardt/php:8.4-alpine3.22 "Get your own image badge on microbadger.com") | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.22/8.4/Dockerfile)     |
-| [loeffelhardt/php:8.3-alpine3.22](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.3-alpine3.22) | 8.3.23      | Alpine 3.22        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.3-alpine3.22.svg)](https://microbadger.com/images/loeffelhardt/php:8.3-alpine3.22 "Get your own image badge on microbadger.com") | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.22/8.3/Dockerfile)     |
-| [loeffelhardt/php:8.4-alpine3.21](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.4-alpine3.21) | 8.4.11      | Alpine 3.21        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.4-alpine3.21.svg)](https://microbadger.com/images/loeffelhardt/php:8.4-alpine3.21 "Get your own image badge on microbadger.com") | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.21/8.4/Dockerfile)     |
-| [loeffelhardt/php:8.3-alpine3.21](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.3-alpine3.21) | 8.3.23      | Alpine 3.21        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.3-alpine3.21.svg)](https://microbadger.com/images/loeffelhardt/php:8.3-alpine3.21 "Get your own image badge on microbadger.com") | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.21/8.3/Dockerfile)     |
+| [loeffelhardt/php:latest](https://hub.docker.com/r/loeffelhardt/php/tags?name=latest)                 | 8.4.13      | Alpine 3.22        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:latest.svg)](https://microbadger.com/images/loeffelhardt/php:latest "Get your own image badge on microbadger.com")                 | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.22/8.4/Dockerfile)     |
+| [loeffelhardt/php:8.4](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.4)                       | 8.4.13      | Alpine 3.22        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.4.svg)](https://microbadger.com/images/loeffelhardt/php:8.4 "Get your own image badge on microbadger.com")                       | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.22/8.4/Dockerfile)     |
+| [loeffelhardt/php:8.3](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.3)                       | 8.3.26      | Alpine 3.22        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.3.svg)](https://microbadger.com/images/loeffelhardt/php:8.3 "Get your own image badge on microbadger.com")                       | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.22/8.3/Dockerfile)     |
+| [loeffelhardt/php:8.4-alpine3.22](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.4-alpine3.22) | 8.4.13      | Alpine 3.22        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.4-alpine3.22.svg)](https://microbadger.com/images/loeffelhardt/php:8.4-alpine3.22 "Get your own image badge on microbadger.com") | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.22/8.4/Dockerfile)     |
+| [loeffelhardt/php:8.3-alpine3.22](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.3-alpine3.22) | 8.3.26      | Alpine 3.22        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.3-alpine3.22.svg)](https://microbadger.com/images/loeffelhardt/php:8.3-alpine3.22 "Get your own image badge on microbadger.com") | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.22/8.3/Dockerfile)     |
+| [loeffelhardt/php:8.4-alpine3.21](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.4-alpine3.21) | 8.4.13      | Alpine 3.21        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.4-alpine3.21.svg)](https://microbadger.com/images/loeffelhardt/php:8.4-alpine3.21 "Get your own image badge on microbadger.com") | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.21/8.4/Dockerfile)     |
+| [loeffelhardt/php:8.3-alpine3.21](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.3-alpine3.21) | 8.3.26      | Alpine 3.21        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.3-alpine3.21.svg)](https://microbadger.com/images/loeffelhardt/php:8.3-alpine3.21 "Get your own image badge on microbadger.com") | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.21/8.3/Dockerfile)     |
 | [loeffelhardt/php:8.4-alpine3.20](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.4-alpine3.20) | 8.4.8       | Alpine 3.20        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.4-alpine3.20.svg)](https://microbadger.com/images/loeffelhardt/php:8.4-alpine3.20 "Get your own image badge on microbadger.com") | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.20/8.4/Dockerfile)     |
 | [loeffelhardt/php:8.3-alpine3.20](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.3-alpine3.20) | 8.3.17      | Alpine 3.20        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.3-alpine3.20.svg)](https://microbadger.com/images/loeffelhardt/php:8.3-alpine3.20 "Get your own image badge on microbadger.com") | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.20/8.3/Dockerfile)     |
 | [loeffelhardt/php:8.4-debian](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.4-debian)         | 8.4.11      | Debian "bullseye"  | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.4-debian.svg)](https://microbadger.com/images/loeffelhardt/php:8.4-debian "Get your own image badge on microbadger.com")         | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/debian/bullseye/8.4/Dockerfile) |
-| [loeffelhardt/php:8.3-debian](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.3-debian)         | 8.3.23      | Debian "bullseye"  | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.3-debian.svg)](https://microbadger.com/images/loeffelhardt/php:8.3-debian "Get your own image badge on microbadger.com")         | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/debian/bullseye/8.3/Dockerfile) |
+| [loeffelhardt/php:8.3-debian](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.3-debian)         | 8.3.24      | Debian "bullseye"  | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.3-debian.svg)](https://microbadger.com/images/loeffelhardt/php:8.3-debian "Get your own image badge on microbadger.com")         | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/debian/bullseye/8.3/Dockerfile) |
 ## How to use
 
 ### Pull image
@@ -138,6 +135,7 @@ Installed extensions
   [x] phar
   [x] posix
   [ ] pspell
+  [x] random
   [x] readline
   [x] reflection
   [x] session
@@ -166,23 +164,29 @@ Installed extensions
 
 Disabled extensions
 ====================
- [ ] blackfire 1.92.28
- [ ] newrelic 11.10.0.24
- [ ] pcov 1.0.11
- [ ] tideways 5.22.2
- [ ] xhprof 2.3.9
+ [ ] amqp 2.1.2
+ [ ] blackfire 1.87.1~linux-musl-x64-non_zts82
+ [ ] excimer 1.2.5
+ [ ] newrelic 12.1.0.26
+ [ ] otel 
+ [ ] pcov 1.0.12
+ [ ] tideways 5.30.0-252e30b
+ [ ] xhprof 2.3.10
 
 INSTALLED PACKAGES, CHANNEL PECL.PHP.NET:
 =========================================
 PACKAGE VERSION STATE
-apcu    5.1.22  stable
-pcov    1.0.11  stable
-redis   5.3.7   stable
-xdebug  3.2.2   stable
-xhprof  2.3.9   stable
+amqp    2.1.2   stable
+apcu    5.1.27  stable
+excimer 1.2.5   stable
+pcov    1.0.12  stable
+redis   6.2.0   stable
+xdebug  3.4.7   stable
+xhprof  2.3.10  stable
+
 Composer
 ====================
-Composer version 2.8.10
+Composer version 2.8.12 2025-09-19 13:41:59
 ```
 ##### Run the following to get the report
 ```bash
