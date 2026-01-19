@@ -23,32 +23,13 @@ jobs:
           - image: "alpine/3.22/8.4/Dockerfile"
             tags: [ "loeffelhardt/php:latest", "loeffelhardt/php:8.4", "loeffelhardt/php:8.4-alpine3.22" ]
             platforms: [ "linux/amd64", "linux/arm64" ]
-          - image: "alpine/3.22/8.3/Dockerfile"
-            tags: [ "loeffelhardt/php:8.3", "loeffelhardt/php:8.3-alpine3.22" ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-          ### Alpine 3.21
-          - image: "alpine/3.21/8.4/Dockerfile"
-            tags: [ "loeffelhardt/php:8.4-alpine3.21" ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-          - image: "alpine/3.21/8.3/Dockerfile"
-            tags: [ "loeffelhardt/php:8.3-alpine3.21" ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-          ### Alpine 3.20
-          - image: "alpine/3.20/8.4/Dockerfile"
-            tags: [ "loeffelhardt/php:8.4-alpine3.20" ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-          - image: "alpine/3.20/8.3/Dockerfile"
-            tags: [ "loeffelhardt/php:8.3-alpine3.20" ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
 
           ## Debian
           ### Debian bullseye
           - image: 'debian/bullseye/8.4/Dockerfile'
             tags: [ 'loeffelhardt/php:8.4-debian' ]
             platforms: [ "linux/amd64", "linux/arm64" ]
-          - image: 'debian/bullseye/8.3/Dockerfile'
-            tags: [ 'loeffelhardt/php:8.3-debian' ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
+
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
