@@ -3,11 +3,11 @@ ARG SPRYKER_PHP_VERSION=8.2.30
 FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.22
 
 ARG TARGETPLATFORM
-ARG COMPOSER_VERSION=2.8.12
+ARG COMPOSER_VERSION=2.9.3
 ARG BLACKFIRE_VERSION=1.87.1
 ARG BLACKFIRE_PHP_VERSION=82
-ARG NEWRELIC_VERSION=12.3.0.28
-ARG TIDEWAYS_VERSION=5.30.0
+ARG NEWRELIC_VERSION=12.5.0.30
+ARG TIDEWAYS_VERSION=5.32.0
 ARG TIDEWAYS_PHP_VERSION=8.2
 
 ENV srcRoot /data
@@ -112,7 +112,7 @@ RUN apk update \
     && apk add --no-cache --virtual .graphviz-build-deps ${GRAPHVIZ_BUILD_DEPS} \
     && rm -rf /var/lib/apt/lists/ \
     && cd /tmp \
-    && curl -L https://gitlab.alpinelinux.org/alpine/apk-tools/-/archive/v3.0.0_rc7/apk-tools-v3.0.0_rc7.tar.gz | tar -zx \
+    && git clone --depth 1 --branch v3.0.0_rc7 https://github.com/alpinelinux/apk-tools.git apk-tools-v3.0.0_rc7 \
     && cd apk-tools-v3.0.0_rc7 && make LUA=no && make LUA=no install \
     && cd /tmp \
     && curl -LO https://github.com/unicode-org/icu/releases/download/release-74-1/icu4c-74_1-src.tgz \
@@ -189,15 +189,15 @@ RUN bash -c 'if [ "${TARGETPLATFORM}" == "linux/arm64" ]; then \
     && tar xvzf tideways-php-${TIDEWAYS_VERSION}-alpine-arm64.tar.gz \
     && cp ./tideways-php-${TIDEWAYS_VERSION}/tideways-php-alpine-${TIDEWAYS_PHP_VERSION}.so $(php-config --extension-dir)/tideways.so; fi'
 
-#GraphViz 7.0.5
-RUN cd /tmp && \
-    curl -L https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/7.0.5/graphviz-7.0.5.tar.gz | tar -zx && \
-    cd /tmp/graphviz-7.0.5 && \
-    ./configure && \
-    make && \
-    make install && \
-    rm -rf /tmp/graphviz-7.0.5 && \
-    apk del --no-cache .graphviz-build-deps
+# #GraphViz 7.0.5
+# RUN cd /tmp && \
+#     curl -L https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/7.0.5/graphviz-7.0.5.tar.gz | tar -zx && \
+#     cd /tmp/graphviz-7.0.5 && \
+#     ./configure && \
+#     make && \
+#     make install && \
+#     rm -rf /tmp/graphviz-7.0.5 && \
+#     apk del --no-cache .graphviz-build-deps
 
 # Opcache
 RUN /usr/bin/install -d -m 777 /var/run/opcache
