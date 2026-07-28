@@ -5,10 +5,10 @@ FROM php:${SPRYKER_PHP_VERSION}-fpm-bullseye
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG TARGETPLATFORM
-ARG COMPOSER_VERSION=2.9.3
+ARG COMPOSER_VERSION=2.9.8
 ARG BLACKFIRE_VERSION=1.92.48
 ARG BLACKFIRE_PHP_VERSION=84
-ARG NEWRELIC_VERSION=12.5.0.30
+ARG NEWRELIC_VERSION=12.8.0.37
 ARG TIDEWAYS_VERSION=5.32.0
 ARG TIDEWAYS_PHP_VERSION=8.4
 ARG GOLANG_VERSION=1.20.3
@@ -47,6 +47,7 @@ ARG PHP_BUILD_DEPS="\
     libxpm-dev \
     libxslt1-dev \
     libzip-dev \
+    libssl-dev \
     librabbitmq-dev \
     libgrpc-dev \
     libprotobuf-dev \
