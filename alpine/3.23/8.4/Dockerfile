@@ -217,6 +217,13 @@ COPY context/php/conf.d/90-opcache.ini /usr/local/etc/php/conf.d/
 COPY context/php/conf.d/92-session.ini /usr/local/etc/php/conf.d/
 COPY context/php/disabled /usr/local/etc/php/disabled
 
+# Re-add "DigiCert Global Root CA" removed from the Mozilla/Alpine bundle in
+# ca-certificates 20260611-r0. Still required to verify the STARTTLS chain of
+# Microsoft Exchange Online (*.mail.protection.outlook.com), whose intermediate
+# "DigiCert SHA2 Secure Server CA" chains up to that root.
+COPY context/certs/ /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+
 WORKDIR /data
 
 # Install composer
