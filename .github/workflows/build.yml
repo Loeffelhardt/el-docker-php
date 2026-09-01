@@ -9,46 +9,136 @@ on:
     paths:
       - "alpine/**"
       - "debian/**"
+      - "images.json"
   workflow_dispatch:
 
+env:
+  IMAGE_NAME: loeffelhardt/php
+
 jobs:
+  # Single source of truth: images.json. Derive two matrices from it:
+  #   - build_matrix: one entry per (image, platform), with the native
+  #     runner to use for that platform (no QEMU).
+  #   - merge_matrix: one entry per image, with its final tags, used to
+  #     assemble the multi-arch manifest after the platform builds.
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      build_matrix: ${{ steps.matrices.outputs.build_matrix }}
+      merge_matrix: ${{ steps.matrices.outputs.merge_matrix }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Derive matrices from images.json
+        id: matrices
+        run: |
+          build_matrix=$(jq -c '{
+            include: [
+              .[] as $img
+              | $img.platforms[] as $p
+              | {
+                  id: ($img.id | gsub("/"; "-")),
+                  image: $img.dockerfile,
+                  platform: $p,
+                  runner: (
+                    if $p == "linux/amd64" then "ubuntu-24.04"
+                    elif $p == "linux/arm64" then "ubuntu-24.04-arm"
+                    else "ubuntu-latest"
+                    end
+                  )
+                }
+            ]
+          }' images.json)
+
+          merge_matrix=$(jq -c '{
+            include: [
+              .[] | { id: (.id | gsub("/"; "-")), tags: .tags }
+            ]
+          }' images.json)
+
+          echo "build_matrix=${build_matrix}" >> "$GITHUB_OUTPUT"
+          echo "merge_matrix=${merge_matrix}" >> "$GITHUB_OUTPUT"
+
+  # Build each image natively on amd64 and arm64 runners (no QEMU emulation,
+  # full native compile speed). On `main` each variant is pushed by digest
+  # (untagged); the `merge` job later assembles the multi-arch manifests.
   build:
+    needs: prepare
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.prepare.outputs.build_matrix) }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Prepare
+        run: |
+          platform=${{ matrix.platform }}
+          echo "PLATFORM_PAIR=${platform//\//-}" >> "$GITHUB_ENV"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Login to DockerHub
+        if: github.ref == 'refs/heads/main'
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # On main: push the single-platform image by digest (no tags yet).
+      - name: Build and push by digest
+        if: github.ref == 'refs/heads/main'
+        id: build_push
+        uses: docker/build-push-action@v7
+        with:
+          file: ${{ matrix.image }}
+          platforms: ${{ matrix.platform }}
+          outputs: type=image,name=${{ env.IMAGE_NAME }},push-by-digest=true,name-canonical=true,push=true
+
+      # On other branches/PRs: just build natively to validate, no push.
+      - name: Build (validate only)
+        if: github.ref != 'refs/heads/main'
+        uses: docker/build-push-action@v7
+        with:
+          file: ${{ matrix.image }}
+          platforms: ${{ matrix.platform }}
+          push: false
+
+      - name: Export digest
+        if: github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p /tmp/digests
+          digest="${{ steps.build_push.outputs.digest }}"
+          touch "/tmp/digests/${digest#sha256:}"
+
+      - name: Upload digest
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v7
+        with:
+          name: digests-${{ matrix.id }}-${{ env.PLATFORM_PAIR }}
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  # Assemble the final multi-arch manifest lists from the per-platform
+  # digests pushed above, tagging each image as defined in images.json.
+  merge:
+    if: github.ref == 'refs/heads/main'
+    needs: [ prepare, build ]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          ## Alpine
-
-          ### Alpine 3.23 - PHP 8.4
-          - image: "alpine/3.23/8.4/Dockerfile"
-            tags: [ "loeffelhardt/php:8.4-alpine3.23" ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-
-          ### Alpine 3.24 - PHP 8.4 & 8.5
-          - image: "alpine/3.24/8.4/Dockerfile"
-            tags: [ "loeffelhardt/php:8.4-alpine3.24", "loeffelhardt/php:8.4" ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-
-          - image: "alpine/3.24/8.5/Dockerfile"
-            tags: [ "loeffelhardt/php:8.5-alpine3.24", "loeffelhardt/php:latest", "loeffelhardt/php:8.5" ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-
-          ## Debian
-
-          ### Debian bullseye - PHP 8.4
-          - image: 'debian/bullseye/8.4/Dockerfile'
-            tags: [ 'loeffelhardt/php:8.4-debian' ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
-
-          ### Debian bookworm - PHP 8.5
-          - image: 'debian/bookworm/8.5/Dockerfile'
-            tags: [ 'loeffelhardt/php:8.5-debian' ]
-            platforms: [ "linux/amd64", "linux/arm64" ]
+      matrix: ${{ fromJson(needs.prepare.outputs.merge_matrix) }}
 
     steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
+      - name: Download digests
+        uses: actions/download-artifact@v8
+        with:
+          path: /tmp/digests
+          pattern: digests-${{ matrix.id }}-*
+          merge-multiple: true
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -59,11 +149,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v7
-        with:
-          push: ${{ github.ref == 'refs/heads/main' }}
-          file: ${{ matrix.image }}
-          tags: ${{ join(matrix.tags) }}
-          platforms: ${{ join(matrix.platforms) }}
+      - name: Create manifest list and push
+        working-directory: /tmp/digests
+        run: |
+          docker buildx imagetools create \
+            $(printf -- '-t %s ' ${{ join(matrix.tags, ' ') }}) \
+            $(printf '${{ env.IMAGE_NAME }}@sha256:%s ' *)
+
+      - name: Inspect image
+        run: |
+          docker buildx imagetools inspect ${{ matrix.tags[0] }}
