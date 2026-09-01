@@ -19,7 +19,7 @@ ENV srcRoot /data
 RUN mkdir -p ${srcRoot}
 
 ARG PHP_RUN_DEPS="\
-    libavif9 \
+    libavif15 \
     libbz2-1.0 \
     libfreetype6 \
     libgmp10 \
