@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.0.2-experimental
 ARG SPRYKER_PHP_VERSION=8.2.33
-FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.23
+FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.24
 
 ARG TARGETPLATFORM
 ARG COMPOSER_VERSION=2.10.2

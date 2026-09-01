@@ -1,16 +1,17 @@
 # syntax=docker/dockerfile:1.7
-ARG SPRYKER_PHP_VERSION=8.2.29
+ARG SPRYKER_PHP_VERSION=8.5.9
 
-FROM php:${SPRYKER_PHP_VERSION}-fpm-bullseye
+# PHP 8.5 is not published for "bullseye" upstream, so this image is based on "bookworm".
+FROM php:${SPRYKER_PHP_VERSION}-fpm-bookworm
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG TARGETPLATFORM
 ARG COMPOSER_VERSION=2.10.2
-ARG BLACKFIRE_VERSION=1.87.1
-ARG BLACKFIRE_PHP_VERSION=82
+ARG BLACKFIRE_VERSION=1.92.53
+ARG BLACKFIRE_PHP_VERSION=85
 ARG NEWRELIC_VERSION=12.9.0.38
 ARG TIDEWAYS_VERSION=5.42.0
-ARG TIDEWAYS_PHP_VERSION=8.2
+ARG TIDEWAYS_PHP_VERSION=8.5
 ARG GOLANG_VERSION=1.20.3
 
 ENV srcRoot /data
@@ -22,10 +23,10 @@ ARG PHP_RUN_DEPS="\
     libbz2-1.0 \
     libfreetype6 \
     libgmp10 \
-    libicu67 \
+    libicu72 \
     libjpeg62-turbo \
     libpng16-16 \
-    libwebp6 \
+    libwebp7 \
     libxml2 \
     libxpm4 \
     libxslt1.1 \
@@ -47,12 +48,15 @@ ARG PHP_BUILD_DEPS="\
     libxpm-dev \
     libxslt1-dev \
     libzip-dev \
+    libssl-dev \
     librabbitmq-dev \
     libgrpc-dev \
     libprotobuf-dev \
     protobuf-compiler \
     libmagickwand-dev"
 
+# opcache is statically linked into the PHP 8.5 binary and can no longer be built
+# as a shared module, so it is not listed here; 90-opcache.ini configures the built-in one.
 ARG PHP_EXTENSIONS="\
     bcmath \
     bz2 \
@@ -61,7 +65,6 @@ ARG PHP_EXTENSIONS="\
     gmp \
     intl \
     mysqli \
-    opcache \
     pcntl \
     pdo_mysql \
     pdo_pgsql \
