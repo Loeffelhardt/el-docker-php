@@ -18,7 +18,7 @@ ENV srcRoot /data
 RUN mkdir -p ${srcRoot}
 
 ARG PHP_RUN_DEPS="\
-    libavif9 \
+    libavif15 \
     libbz2-1.0 \
     libfreetype6 \
     libgmp10 \
@@ -47,6 +47,7 @@ ARG PHP_BUILD_DEPS="\
     libxpm-dev \
     libxslt1-dev \
     libzip-dev \
+    libssl-dev \
     librabbitmq-dev \
     libgrpc-dev \
     libprotobuf-dev \
