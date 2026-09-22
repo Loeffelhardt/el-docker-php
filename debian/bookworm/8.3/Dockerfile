@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1.7
-ARG SPRYKER_PHP_VERSION=8.3.24
+ARG SPRYKER_PHP_VERSION=8.3.33
 
-FROM php:${SPRYKER_PHP_VERSION}-fpm-bullseye
+FROM php:${SPRYKER_PHP_VERSION}-fpm-bookworm
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG TARGETPLATFORM
-ARG COMPOSER_VERSION=2.10.2
+ARG COMPOSER_VERSION=2.10.3
 ARG BLACKFIRE_VERSION=1.92.48
 ARG BLACKFIRE_PHP_VERSION=83
-ARG NEWRELIC_VERSION=12.9.0.38
+ARG NEWRELIC_VERSION=12.10.0.39
 ARG TIDEWAYS_VERSION=5.42.0
 ARG TIDEWAYS_PHP_VERSION=8.3
 ARG GOLANG_VERSION=1.20.3
@@ -22,10 +22,10 @@ ARG PHP_RUN_DEPS="\
     libbz2-1.0 \
     libfreetype6 \
     libgmp10 \
-    libicu67 \
+    libicu72 \
     libjpeg62-turbo \
     libpng16-16 \
-    libwebp6 \
+    libwebp7 \
     libxml2 \
     libxpm4 \
     libxslt1.1 \
@@ -71,6 +71,9 @@ ARG PHP_EXTENSIONS="\
     xsl \
     zip"
 
+ARG ADDITIONAL_PHP_EXTENSIONS="\
+    xsl"
+
 ARG PHP_PECL_EXTENSIONS="\
     apcu \
     redis"
@@ -84,7 +87,8 @@ ARG ADDITIONAL_PHP_PECL_EXTENSIONS="\
     grpc \
     protobuf \
     opentelemetry \
-    imagick"
+    imagick \
+    xlswriter"
 
 ARG CFLAGS="-I/usr/src/php"
 RUN apt update -y \
@@ -124,11 +128,12 @@ RUN apt update -y \
       --with-jpeg=/usr \
       --with-webp=/usr \
       --with-xpm=/usr \
-    && docker-php-ext-install -j5 ${PHP_EXTENSIONS} \
+    && docker-php-ext-install -j5 ${PHP_EXTENSIONS} ${ADDITIONAL_PHP_EXTENSIONS} \
     && \
     set -eux; export MAKEFLAGS="-j$(nproc)"; pecl install -o -f ${PHP_PECL_EXTENSIONS} ${ADDITIONAL_PHP_PECL_EXTENSIONS} \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable ${PHP_EXTENSIONS} ${PHP_PECL_EXTENSIONS} \
+    && for ext in ${ADDITIONAL_PHP_EXTENSIONS}; do rm -f /usr/local/etc/php/conf.d/docker-php-ext-${ext}.ini; done \
     && apt remove -y $PHP_BUILD_DEPS \
     && apt clean
 
@@ -137,8 +142,9 @@ RUN architecture=$(case ${TARGETPLATFORM} in "linux/amd64") echo "amd64" ;; linu
     && curl -L "https://go.dev/dl/go${GOLANG_VERSION}.linux-${architecture}.tar.gz" | tar -C /usr/local -xz
 ENV PATH="$PATH:/usr/local/go/bin"
 
-RUN echo "dash dash/sh boolean false" | debconf-set-selections
-RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
+RUN dpkg-divert --package dash --no-rename --remove /bin/sh \
+    && dpkg-divert --package bash --no-rename --divert /bin/sh.distrib --add /bin/sh \
+    && ln -sf bash /bin/sh
 
 # Blackfire
 ENV BLACKFIRE_AGENT_SOCKET=''

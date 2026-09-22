@@ -3,10 +3,10 @@ ARG SPRYKER_PHP_VERSION=8.2.29
 FROM php:${SPRYKER_PHP_VERSION}-fpm-alpine3.21
 
 ARG TARGETPLATFORM
-ARG COMPOSER_VERSION=2.10.2
+ARG COMPOSER_VERSION=2.10.3
 ARG BLACKFIRE_VERSION=1.87.1
 ARG BLACKFIRE_PHP_VERSION=82
-ARG NEWRELIC_VERSION=12.9.0.38
+ARG NEWRELIC_VERSION=12.10.0.39
 ARG TIDEWAYS_VERSION=5.42.0
 ARG TIDEWAYS_PHP_VERSION=8.2
 
@@ -69,6 +69,9 @@ ARG PHP_EXTENSIONS="\
     xsl \
     zip"
 
+ARG ADDITIONAL_PHP_EXTENSIONS="\
+    xsl"
+
 ARG PHP_PECL_EXTENSIONS="\
     apcu \
     redis"
@@ -79,7 +82,8 @@ ARG ADDITIONAL_PHP_PECL_EXTENSIONS="\
     xhprof \
     excimer \
     amqp \
-    imagick"
+    imagick \
+    xlswriter"
 
 ARG GRAPHVIZ_BUILD_DEPS="\
     expat-dev"
@@ -118,10 +122,11 @@ RUN apk update \
         --with-jpeg=/usr \
         --with-webp=/usr \
         --with-xpm=/usr \
-    && docker-php-ext-install -j5 ${PHP_EXTENSIONS} \
+    && docker-php-ext-install -j5 ${PHP_EXTENSIONS} ${ADDITIONAL_PHP_EXTENSIONS} \
     && pecl install -o -f ${PHP_PECL_EXTENSIONS} ${ADDITIONAL_PHP_PECL_EXTENSIONS} \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable ${PHP_EXTENSIONS} ${PHP_PECL_EXTENSIONS} \
+    && for ext in ${ADDITIONAL_PHP_EXTENSIONS}; do rm -f /usr/local/etc/php/conf.d/docker-php-ext-${ext}.ini; done \
     && apk del --no-cache .php-build-deps \
     && rm -rf /tmp/icu*
 
