@@ -18,6 +18,7 @@ ARG PHP_RUN_DEPS="\
     gmp \
     gnu-libiconv \
     icu-libs \
+    libavif \
     libbz2 \
     libc6-compat \
     libjpeg-turbo \
@@ -37,6 +38,7 @@ ARG PHP_BUILD_DEPS="\
     gmp-dev \
     icu-dev \
     icu-data-full \
+    libavif-dev \
     libjpeg-turbo-dev \
     libpng-dev \
     libwebp-dev \
@@ -114,6 +116,7 @@ RUN apk update \
     && cd icu/source && ./configure --prefix=/usr && make && make install \
     && docker-php-ext-configure gd \
         --disable-gd-jis-conv \
+        --with-avif=/usr \
         --with-freetype=/usr \
         --with-jpeg=/usr \
         --with-webp=/usr \
@@ -123,7 +126,8 @@ RUN apk update \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable ${PHP_EXTENSIONS} ${PHP_PECL_EXTENSIONS} \
     && for ext in ${ADDITIONAL_PHP_EXTENSIONS}; do rm -f /usr/local/etc/php/conf.d/docker-php-ext-${ext}.ini; done \
-    && apk del --no-cache .php-build-deps
+    && apk del --no-cache .php-build-deps \
+    && rm -rf /tmp/icu*
 
 # Related to https://github.com/docker-library/php/issues/240
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so

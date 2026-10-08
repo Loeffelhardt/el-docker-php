@@ -18,6 +18,7 @@ ENV srcRoot /data
 RUN mkdir -p ${srcRoot}
 
 ARG PHP_RUN_DEPS="\
+    libavif15 \
     libbz2-1.0 \
     libfreetype6 \
     libgmp10 \
@@ -33,6 +34,7 @@ ARG PHP_RUN_DEPS="\
     libmagickcore-6.q16-6"
 
 ARG PHP_BUILD_DEPS="\
+    libavif-dev \
     libbz2-dev \
     libfreetype6-dev \
     libgmp-dev \
@@ -122,6 +124,7 @@ RUN apt update -y \
     && \
     docker-php-ext-configure gd \
       --disable-gd-jis-conv \
+      --with-avif=/usr \
       --with-freetype=/usr \
       --with-jpeg=/usr \
       --with-webp=/usr \
