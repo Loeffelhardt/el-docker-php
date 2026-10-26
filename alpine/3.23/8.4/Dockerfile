@@ -18,6 +18,7 @@ ARG PHP_RUN_DEPS="\
     gmp \
     gnu-libiconv \
     icu-libs \
+    libavif \
     libbz2 \
     libc6-compat \
     libjpeg-turbo \
@@ -37,6 +38,7 @@ ARG PHP_BUILD_DEPS="\
     gmp-dev \
     icu-dev \
     icu-data-full \
+    libavif-dev \
     libjpeg-turbo-dev \
     libpng-dev \
     libwebp-dev \
@@ -123,6 +125,7 @@ RUN apk update \
     && rm -rf /tmp/apk-tools-v3.0.0_rc7 /tmp/icu4c-74_1-src.tgz /tmp/icu \
     && docker-php-ext-configure gd \
       --disable-gd-jis-conv \
+      --with-avif=/usr \
       --with-freetype=/usr \
       --with-jpeg=/usr \
       --with-webp=/usr \
@@ -132,7 +135,8 @@ RUN apk update \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable ${PHP_EXTENSIONS} ${PHP_PECL_EXTENSIONS} \
     && for ext in ${ADDITIONAL_PHP_EXTENSIONS}; do rm -f /usr/local/etc/php/conf.d/docker-php-ext-${ext}.ini; done \
-    && apk del --no-cache .php-build-deps
+    && apk del --no-cache .php-build-deps \
+    && rm -rf /tmp/icu*
 
 # Related to https://github.com/docker-library/php/issues/240
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
@@ -217,6 +221,13 @@ COPY context/php/conf.d/90-opcache.ini /usr/local/etc/php/conf.d/
 COPY context/php/conf.d/92-session.ini /usr/local/etc/php/conf.d/
 COPY context/php/disabled /usr/local/etc/php/disabled
 
+# Re-add "DigiCert Global Root CA" removed from the Mozilla/Alpine bundle in
+# ca-certificates 20260611-r0. Still required to verify the STARTTLS chain of
+# Microsoft Exchange Online (*.mail.protection.outlook.com), whose intermediate
+# "DigiCert SHA2 Secure Server CA" chains up to that root.
+COPY context/certs/ /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+
 WORKDIR /data
 
 # Install composer
@@ -233,4 +244,3 @@ RUN mkdir -p /home/spryker/.composer
 RUN bash -c '[[ $COMPOSER_VERSION == "1"* ]] && composer global require hirak/prestissimo && rm -rf /home/spryker/.composer/cache || true'
 
 USER root
-
