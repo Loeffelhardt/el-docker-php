@@ -31,7 +31,6 @@ Extends official Spryker PHP Docker images with extensions and tools to be able 
 | [loeffelhardt/php:8.4-alpine3.24](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.4-alpine3.24) | 8.4.27      | Alpine 3.24        | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.4-alpine3.24.svg)](https://microbadger.com/images/loeffelhardt/php:8.4-alpine3.24 "Get your own image badge on microbadger.com") | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/alpine/3.24/8.4/Dockerfile)     |
 | [loeffelhardt/php:8.5-debian](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.5-debian)         | 8.5.12      | Debian "bookworm"  | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.5-debian.svg)](https://microbadger.com/images/loeffelhardt/php:8.5-debian "Get your own image badge on microbadger.com")         | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/debian/bookworm/8.5/Dockerfile) |
 | [loeffelhardt/php:8.4-debian](https://hub.docker.com/r/loeffelhardt/php/tags?name=8.4-debian)         | 8.4.27      | Debian "bookworm"  | [![](https://images.microbadger.com/badges/image/loeffelhardt/php:8.4-debian.svg)](https://microbadger.com/images/loeffelhardt/php:8.4-debian "Get your own image badge on microbadger.com")         | [:link:](https://github.com/loeffelhardt/el-docker-php/blob/master/debian/bookworm/8.4/Dockerfile) |
-## How to use
 
 ## PHP extensions
 
@@ -125,7 +124,7 @@ Disabled extensions
  [ ] tideways 5.42.0-d1af5cc
  [ ] xhprof 2.3.10
  [ ] xlswriter 3.0.0
- [ ] xsl 8.3.35
+ [ ] xsl 8.3.36
 
 INSTALLED PACKAGES, CHANNEL PECL.PHP.NET:
 =========================================
